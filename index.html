@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#1f2b1b" />
+  <title>동아시아 역사 BLOCK QUEST</title>
+  <link rel="stylesheet" href="./styles.css" />
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="./config.js"></script>
+</head>
+<body>
+  <main class="wrap">
+    <header class="topbar">
+      <div>
+        <p class="eyebrow">고2 동아시아 역사 기행</p>
+        <h1>BLOCK QUEST</h1>
+        <p class="sub">상나라에서 당나라까지</p>
+      </div>
+      <span id="serverBadge" class="server-badge">서버 확인 중</span>
+    </header>
+
+    <section id="startScreen" class="screen active">
+      <div class="panel hero">
+        <div class="pixel-world" aria-hidden="true">
+          <div class="sun"></div>
+          <div class="hill h1"></div><div class="hill h2"></div>
+          <div class="ground"></div>
+          <div class="cube c1"></div><div class="cube c2"></div><div class="cube c3"></div>
+        </div>
+        <div class="hero-copy">
+          <span class="tag">HISTORY SURVIVAL MAP</span>
+          <h2>역사 지역을 탐험하고<br>당나라 장안까지 도착하라.</h2>
+          <p>문제를 맞히면 핵심 개념 아이템을 얻습니다. 공식 기록은 1인 1회이며, 순위는 <b>점수 우선 → 동점이면 더 짧은 소요 시간</b> 순입니다.</p>
+        </div>
+      </div>
+
+      <div class="panel login">
+        <h3>플레이어 등록</h3>
+        <label>학번<input id="studentId" inputmode="numeric" maxlength="10" placeholder="예: 20315" /></label>
+        <label>이름<input id="studentName" maxlength="20" placeholder="이름 입력" /></label>
+        <p class="notice">다른 학생의 이름은 순위 화면에 공개되지 않습니다.</p>
+        <button id="startBtn" class="btn primary">게임 시작</button>
+        <p id="startMsg" class="msg"></p>
+      </div>
+
+      <div class="panel rules">
+        <div><b>15</b><span>총 문항</span></div>
+        <div><b>10분</b><span>권장 시간</span></div>
+        <div><b>1회</b><span>공식 기록</span></div>
+        <div><b>실시간</b><span>개인 순위</span></div>
+      </div>
+    </section>
+
+    <section id="gameScreen" class="screen">
+      <div class="panel hud">
+        <div class="hud-row"><strong id="playerLabel">-</strong><span><b id="scoreLabel">0 / 15</b> · <b id="timerLabel">00:00</b></span></div>
+        <div class="bar"><div id="progress"></div></div>
+        <div id="stageStrip" class="stage-strip"></div>
+      </div>
+
+      <div class="panel question">
+        <div class="qmeta"><span id="stageLabel">STAGE</span><span id="qCount">1 / 15</span></div>
+        <h2 id="qText"></h2>
+        <div id="options" class="options"></div>
+        <div id="feedback" class="feedback hidden"></div>
+        <button id="nextBtn" class="btn primary hidden">다음 지역으로</button>
+      </div>
+
+      <div class="panel inventory">
+        <div class="inventory-head"><h3>INVENTORY</h3><span>획득한 핵심 개념</span></div>
+        <div id="inventoryGrid" class="inventory-grid"></div>
+      </div>
+    </section>
+
+    <section id="resultScreen" class="screen">
+      <div class="panel result-main">
+        <span class="clear">WORLD CLEAR</span>
+        <h2 id="resultPlayer">플레이어</h2>
+        <div class="rank">
+          <span>현재 순위</span>
+          <strong id="rankValue">-</strong>
+          <small id="rankTotal">완료 0명</small>
+        </div>
+        <div class="stats">
+          <div><span>점수</span><b id="resultScore">0 / 15</b></div>
+          <div><span>정확도</span><b id="resultAccuracy">0%</b></div>
+          <div><span>소요 시간</span><b id="resultTime">00:00</b></div>
+        </div>
+      </div>
+
+      <div class="panel summary">
+        <h3>상 → 당 흐름 완성</h3>
+        <div class="timeline"><span>상</span><i>→</i><span>주</span><i>→</i><span>춘추·전국</span><i>→</i><span>진</span><i>→</i><span>한</span><i>→</i><span>남북조</span><i>→</i><span>수</span><i>→</i><span>당</span></div>
+        <p><b>초기 국가와 청동기 문화</b> → <b>제후국 경쟁과 철기 확산</b> → <b>진·한 통일 제국</b> → <b>분열과 민족 융합</b> → <b>수의 재통일</b> → <b>당 중심의 국제 교류</b></p>
+      </div>
+
+      <div class="panel summary">
+        <h3>최종 획득 아이템</h3>
+        <div id="resultInventory" class="inventory-grid large"></div>
+      </div>
+
+      <div class="panel summary">
+        <h3>동아시아 문화권 해금</h3>
+        <div class="culture"><span>한자</span><span>율령</span><span>유교</span><span>불교</span></div>
+        <p class="notice">다른 학생들이 나중에 완료하면 현재 순위는 달라질 수 있습니다.</p>
+      </div>
+
+      <button id="practiceBtn" class="btn secondary">연습 모드로 다시 풀기</button>
+    </section>
+  </main>
+
+  <footer>수업용 역사 복습 게임 · 상~당 핵심 흐름</footer>
+  <script src="./app.js"></script>
+</body>
+</html>
